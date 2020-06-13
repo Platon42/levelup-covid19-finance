@@ -1,0 +1,54 @@
+{
+  "type": "object",
+  "properties": {
+    "prices": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "integer"
+          },
+          "open": {
+            "type": "number"
+          },
+          "high": {
+            "type": "number"
+          },
+          "low": {
+            "type": "number"
+          },
+          "close": {
+            "type": "number"
+          },
+          "volume": {
+            "type": "integer"
+          },
+          "adjclose": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "isPending": {
+      "type": "boolean"
+    },
+    "firstTradeDate": {
+      "type": "integer"
+    },
+    "id": {
+      "type": "string"
+    },
+    "timeZone": {
+      "type": "object",
+      "properties": {
+        "gmtOffset": {
+          "type": "integer"
+        }
+      }
+    },
+    "eventsData": {
+      "type": "array"
+    }
+  }
+}
