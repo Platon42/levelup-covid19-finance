@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import ru.levelup.covid19.finance.dto.self.FinancialHistoryDto;
 import ru.levelup.covid19.finance.dto.yahoo.market.CompanySymbol;
 import ru.levelup.covid19.finance.dto.yahoo.stock.historical.HistoricalDataProvider;
 
@@ -27,17 +28,16 @@ public class YahooHistoricalServiceImpl implements YahooHistoricalService {
     //        .header("x-rapidapi-host", "apidojo-yahoo-finance-v1.p.rapidapi.com")
     //        .header("x-rapidapi-key", "24127881c1mshdc03b4c52a44067p1c7fd4jsne0d7bd6ff975")
     //        .asString();
-    public HistoricalDataProvider getHistoricalData(CompanySymbol symbol,
-                                                    String period1, String period2) {
+    public HistoricalDataProvider getHistoricalData(FinancialHistoryDto financialHistoryDto) {
 
         UriComponentsBuilder uriBuilder =
                 UriComponentsBuilder
                         .fromUriString("https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v2/get-historical-data")
                         .queryParam("frequency", "1d")
                         .queryParam("filter", "history")
-                        .queryParam("period1", period1)
-                        .queryParam("period2", period2)
-                        .queryParam("symbol", symbol);
+                        .queryParam("period1", financialHistoryDto.getPeriod1())
+                        .queryParam("period2", financialHistoryDto.getPeriod2())
+                        .queryParam("symbol", financialHistoryDto.getCompanySymbol());
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("x-rapidapi-host", "apidojo-yahoo-finance-v1.p.rapidapi.com");
