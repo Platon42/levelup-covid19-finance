@@ -22,6 +22,6 @@ public class AppController {
         //ResponseBody класса HistoricalDataProvider
     String getHistory(@RequestBody FinancialHistoryDto financialHistoryDto) {
         historyFacade.flow(financialHistoryDto);
-        return historyFacade.flow2(0).toString();
+        return historyFacade.flow2(14).toString();
     }
 }

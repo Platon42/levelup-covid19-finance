@@ -15,9 +15,9 @@ public class DatabaseConfig {
     public DataSource getDataSource() {
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
         dataSourceBuilder.driverClassName("org.postgresql.Driver");
-        dataSourceBuilder.url("jdbc:postgresql://95.163.214.27:5432/covid");
-        dataSourceBuilder.username("covid");
-        dataSourceBuilder.password("NdWgW8kJ2BEnwh");
+        dataSourceBuilder.url("");
+        dataSourceBuilder.username("");
+        dataSourceBuilder.password("");
         return dataSourceBuilder.build();
     }
 }

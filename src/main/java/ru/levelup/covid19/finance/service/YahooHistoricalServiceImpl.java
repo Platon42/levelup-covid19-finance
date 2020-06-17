@@ -16,7 +16,7 @@ import ru.levelup.covid19.finance.dto.yahoo.stock.historical.HistoricalDataProvi
 public class YahooHistoricalServiceImpl implements YahooHistoricalService {
 
     @Autowired //инъекция бина
-            RestTemplate restTemplate;
+    private RestTemplate restTemplate;
 
     //HttpResponse<String> response = Unirest.get("https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v2/
     // get-historical-data?

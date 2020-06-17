@@ -15,6 +15,7 @@ public class FinanceHistoryEntity {
     private String id;
     private String timeZone;
 
+
     @Id
     @Column(name = "finance_history_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,6 +66,18 @@ public class FinanceHistoryEntity {
     public void setTimeZone(String timeZone) {
         this.timeZone = timeZone;
     }
+
+    @Basic
+    @Column(name = "sum_high")
+    public Integer getSumHigh() {
+        return sumHigh;
+    }
+
+    public void setSumHigh(Integer sumHigh) {
+        this.sumHigh = sumHigh;
+    }
+
+    private Integer sumHigh;
 
     @Override
     public boolean equals(Object o) {

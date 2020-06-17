@@ -21,8 +21,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "volume",
         "adjclose"
 })
-public class Price {
 
+public class Price {
     @JsonProperty("date")
     private Integer date;
     @JsonProperty("open")
