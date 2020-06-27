@@ -11,17 +11,24 @@ import ru.levelup.covid19.finance.dto.yahoo.stock.historical.HistoricalDataProvi
 import ru.levelup.covid19.finance.facade.HistoryFacade;
 import ru.levelup.covid19.finance.service.YahooHistoricalService;
 
+import java.math.BigDecimal;
+
 @Controller //об'явление коласса контроллера
 public class AppController {
 
     @Autowired // инъекция синглтона
-            HistoryFacade historyFacade;
+    private HistoryFacade historyFacade;
 
     @PostMapping("/get-history") //объявление POST
     public @ResponseBody
         //ResponseBody класса HistoricalDataProvider
     String getHistory(@RequestBody FinancialHistoryDto financialHistoryDto) {
-        historyFacade.flow(financialHistoryDto);
-        return historyFacade.flow2(14).toString();
+        return historyFacade.toString();
+    }
+
+    @PostMapping("/get-median") //объявление POST
+    public @ResponseBody
+    BigDecimal getMedianByMarketCap(@RequestBody FinancialHistoryDto financialHistoryDto) {
+        return historyFacade.getMarketCapMedian(financialHistoryDto);
     }
 }

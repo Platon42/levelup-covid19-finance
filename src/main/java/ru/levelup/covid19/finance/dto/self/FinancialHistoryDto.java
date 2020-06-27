@@ -5,7 +5,8 @@ import ru.levelup.covid19.finance.dto.yahoo.market.CompanySymbol;
 
 @Data //геттеры сеттеры Lombok
 public class FinancialHistoryDto {
+    private String providerName;
     private String period1;
     private String period2;
-    private CompanySymbol companySymbol;
+    private String companySymbol;
 }
