@@ -13,6 +13,7 @@ public class PriceEntity {
     private Double low;
     private Double close;
     private Double adjclose;
+    private Integer volume;
     private FinanceHistoryEntity financeHistoryByFinanceHistoryId;
 
     @Id
@@ -84,6 +85,16 @@ public class PriceEntity {
 
     public void setAdjclose(Double adjclose) {
         this.adjclose = adjclose;
+    }
+
+    @Basic
+    @Column(name = "volume")
+    public Integer getVolume() {
+        return volume;
+    }
+
+    public void setVolume(Integer volume) {
+        this.volume = volume;
     }
 
     @Override

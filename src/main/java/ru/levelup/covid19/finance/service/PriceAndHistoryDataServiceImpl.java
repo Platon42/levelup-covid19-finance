@@ -14,7 +14,6 @@ import ru.levelup.covid19.finance.repository.mybatis.HistoryRepoMyBatis;
 import java.util.List;
 
 @Service
-
 public class PriceAndHistoryDataServiceImpl implements PriceAndHistoryDataService {
 
     @Autowired
@@ -25,29 +24,40 @@ public class PriceAndHistoryDataServiceImpl implements PriceAndHistoryDataServic
     private HistoryRepoMyBatis historyRepoMyBatis;
 
     public void saveFinanceDataSpringData(HistoricalDataProvider historicalDataProvider) {
-        FinanceHistoryEntity financeHistoryEntity = new FinanceHistoryEntity();
-        financeHistoryEntity.setFirstTradeDate(historicalDataProvider.getFirstTradeDate());
-        financeHistoryEntity.setPending(historicalDataProvider.getIsPending());
-        historyRepoSpringData.save(financeHistoryEntity);
+        if (historicalDataProvider == null || !historicalDataProvider.getError().isEmpty())
+            return;
 
+        FinanceHistoryEntity financeHistoryEntity = new FinanceHistoryEntity();
+        financeHistoryEntity.setPending(historicalDataProvider.getIsPending());
+        financeHistoryEntity.setFirstTradeDate(historicalDataProvider.getFirstTradeDate());
+        financeHistoryEntity.setId(historicalDataProvider.getId());
+        financeHistoryEntity.setTimeZone(historicalDataProvider.getTimeZone().getGmtOffset().toString());
 
         List<Price> prices = historicalDataProvider.getPrices();
-        prices.forEach(price -> {
-            PriceEntity priceEntity = new PriceEntity();
-            priceEntity.setDate(price.getDate());
-            priceEntity.setHigh(price.getHigh());
-            priceEntity.setLow(price.getLow());
-            priceEntity.setAdjclose(price.getAdjclose());
-            priceEntity.setOpen(price.getOpen());
-            priceEntity.setFinanceHistoryByFinanceHistoryId(financeHistoryEntity);
-            priceRepoSpringData.save(priceEntity);
-        });
+        double sumHigh = 0;
+        if (prices != null) {
+            sumHigh = prices.stream().mapToDouble(Price::getHigh).sum();
+        }
+        financeHistoryEntity.setSumHigh(sumHigh);
+        historyRepoSpringData.save(financeHistoryEntity);
 
+        if (prices != null) {
+            prices.forEach(price -> {
+                PriceEntity priceEntity = new PriceEntity();
+                priceEntity.setDate(price.getDate());
+                priceEntity.setOpen(price.getOpen());
+                priceEntity.setHigh(price.getHigh());
+                priceEntity.setLow(price.getLow());
+                priceEntity.setClose(price.getClose());
+                priceEntity.setAdjclose(price.getAdjclose());
+                priceEntity.setVolume(price.getVolume());
+                priceEntity.setFinanceHistoryByFinanceHistoryId(financeHistoryEntity);
+                priceRepoSpringData.save(priceEntity);
+            });
+        }
     }
 
     public FinanceHistoryEntity getFinanceHistory(Integer financeId) {
         return historyRepoMyBatis.getFinanceHistoryMyBatis(financeId);
     }
-
-
 }

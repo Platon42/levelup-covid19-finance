@@ -1,13 +1,12 @@
 package ru.levelup.covid19.finance.facade;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.levelup.covid19.finance.dto.mmvb.market.MmvbHistory;
 import ru.levelup.covid19.finance.dto.mmvb.statistic.MmvbIndex;
 import ru.levelup.covid19.finance.dto.self.FinancialHistoryDto;
 import ru.levelup.covid19.finance.dto.yahoo.stock.historical.HistoricalDataProvider;
-import ru.levelup.covid19.finance.jpa.FinanceHistoryEntity;
+import ru.levelup.covid19.finance.dto.yahoo.stock.historical.Price;
 import ru.levelup.covid19.finance.service.MmvbHistoricalService;
 import ru.levelup.covid19.finance.service.PriceAndHistoryDataService;
 import ru.levelup.covid19.finance.service.YahooHistoricalService;
@@ -15,7 +14,6 @@ import ru.levelup.covid19.finance.service.YahooHistoricalService;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class HistoryFacade {
@@ -31,21 +29,29 @@ public class HistoryFacade {
 
     private static BigDecimal doubleRound (int scale, Double num) {
         BigDecimal bdMedian = new BigDecimal(Double.toString(num));
-        bdMedian = bdMedian.setScale(scale, RoundingMode.HALF_UP);
-
-        System.out.println("input num:" + num);
-        System.out.println("output round:" + bdMedian);
-        return bdMedian;
+        return bdMedian.setScale(scale, RoundingMode.HALF_UP);
     }
 
     public BigDecimal getMarketCapMedian(FinancialHistoryDto dto) {
-        BigDecimal median = new BigDecimal(0);
         Double calcMedian = 0.0;
+
         if (dto.getProviderName().toLowerCase().equals("yahoo")) {
             HistoricalDataProvider data = yahooHistoricalService.getHistoricalData(dto);
-            priceAndHistoryDataService.saveFinanceDataSpringData(data);
-            return median;
+            List<Price> prices = data.getPrices();
+            prices.sort(new Comparator<Price>() {
+                @Override
+                public int compare(Price p1, Price p2) {
+                    return p1.getVolume().compareTo(p2.getVolume());
+                }
+            });
+            int size = prices.size();
+            if (size % 2 == 0) {
+                calcMedian = (double) (prices.get(size/2).getVolume() + prices.get(size/2 - 1).getVolume()) / 2;
+            } else {
+                calcMedian = (double) prices.get(size/2).getVolume();
+            }
         }
+
         if (dto.getProviderName().toLowerCase().equals("mmvb")) {
             MmvbHistory mmvbHistory = mmvbHistoricalService.getMmvbHistoricalData(dto);
 
@@ -68,8 +74,9 @@ public class HistoryFacade {
         return doubleRound(1, calcMedian);
     }
 
-    public FinanceHistoryEntity flow2(Integer financeId) {
-        return priceAndHistoryDataService.getFinanceHistory(financeId);
+    public HistoricalDataProvider getYahooHistory(FinancialHistoryDto dto) {
+        HistoricalDataProvider data = yahooHistoricalService.getHistoricalData(dto);
+        priceAndHistoryDataService.saveFinanceDataSpringData(data);
+        return data;
     }
-
 }
