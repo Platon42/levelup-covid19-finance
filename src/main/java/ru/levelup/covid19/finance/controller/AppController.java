@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ru.levelup.covid19.finance.dto.self.FinancialHistoryDto;
-import ru.levelup.covid19.finance.dto.self.MmvbCapitalizationDiffDto;
 import ru.levelup.covid19.finance.dto.self.TickerDto;
 import ru.levelup.covid19.finance.dto.yahoo.stock.historical.HistoricalDataProvider;
 import ru.levelup.covid19.finance.dto.yahoo.stock.profile.CompanyProfileProvider;
@@ -23,16 +22,6 @@ public class AppController {
 
     @Autowired
     private CompanyFacade companyFacade;
-
-    /**
-     * Получить изменение значения капитализации за два периода
-     * @return значение (%)
-     */
-    @PostMapping("/get-mmvb-diff")
-    @ResponseBody
-    public Double getMmvbCapDiff(@RequestBody MmvbCapitalizationDiffDto mmvbCapitalizationDiffDto) {
-        return historyFacade.getDiffCapPercentage(mmvbCapitalizationDiffDto);
-    }
 
     /**
      * Метод возвращает медиану по капитализации для индекса ММВБ либо медиану по объему торгов для тикера Yahoo Finance

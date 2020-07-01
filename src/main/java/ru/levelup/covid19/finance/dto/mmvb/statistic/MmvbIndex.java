@@ -10,6 +10,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+
+//OPEN, HIGH,
+//        LOW, VALUE,
+//        DURATION, YIELD,
+//        DECIMALS, CAPITALIZATION,
+//        CURRENCYID, DIVISOR
 @Data
 @AllArgsConstructor
 @ToString
