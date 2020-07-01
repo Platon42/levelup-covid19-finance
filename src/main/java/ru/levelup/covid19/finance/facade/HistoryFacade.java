@@ -116,4 +116,44 @@ public class HistoryFacade {
         priceAndHistoryDataService.saveFinanceDataSpringData(data);
         return data;
     }
+
+    // Рассчитываем разницу закрытия первого и последнего дня заданного периода по индексам
+    // Смотрим разницу между получившимся значением и таким же периодом годом ранее
+    // Если состояние рынка ухудшилось, получим отрицательное значение, которое покажет увеличение падения индексов
+
+    @SneakyThrows
+    public Double getEqualityIndices (FinancialHistoryDto dto) {
+        if (dto.getProviderName().toLowerCase().equals("yahoo")) {
+            HistoricalDataProvider data = yahooHistoricalService.getHistoricalData(dto);
+            priceAndHistoryDataService.saveFinanceDataSpringData(data);
+            return 0.0;
+        }
+        if (dto.getProviderName().toLowerCase().equals("mmvb")) {
+            MmvbHistory mmvbHistoryNow = mmvbHistoricalService.getMmvbHistoricalData(dto);
+
+            FinancialHistoryDto dtoBefore = (FinancialHistoryDto) dto.clone();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            LocalDate period1 =  LocalDate.parse(dto.getPeriod1());
+            LocalDate period2 =  LocalDate.parse(dto.getPeriod2());
+
+            dtoBefore.setPeriod2(simpleDateFormat.format(period1.minusYears(1)));
+            dtoBefore.setPeriod1(simpleDateFormat.format(period2.minusYears(1)));
+
+            MmvbHistory mmvbHistoryBefore = mmvbHistoricalService.getMmvbHistoricalData(dtoBefore);
+
+            List<MmvbIndex> mmvbIndicesNow =
+                    mmvbHistoricalService.getMmvbIndex(mmvbHistoryNow);
+            List<MmvbIndex> mmvbIndicesBefore =
+                    mmvbHistoricalService.getMmvbIndex(mmvbHistoryBefore);
+
+            Double deltaBefore = mmvbIndicesBefore.get(mmvbIndicesBefore.size() - 1).getClose()
+                    - mmvbIndicesBefore.get(0).getClose();
+            Double deltaNow = mmvbIndicesNow.get(mmvbIndicesNow.size() - 1).getClose()
+                    - mmvbIndicesNow.get(0).getClose();
+
+            return deltaNow - deltaBefore;
+        }
+        return 0.0;
+    }
+
 }
