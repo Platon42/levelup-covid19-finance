@@ -39,6 +39,8 @@ public class HistoricalDataProvider {
     private List<Object> eventsData = null;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<>();
+    @JsonProperty("error")
+    private String error = "";
 
     @JsonProperty("prices")
     public List<Price> getPrices() {
@@ -110,4 +112,13 @@ public class HistoricalDataProvider {
         this.additionalProperties.put(name, value);
     }
 
+    @JsonProperty("error")
+    public String getError() {
+        return error;
+    }
+
+    @JsonProperty("error")
+    public void setError(String error) {
+        this.error = error;
+    }
 }

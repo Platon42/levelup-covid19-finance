@@ -14,7 +14,7 @@ public class FinanceHistoryEntity {
     private Integer firstTradeDate;
     private String id;
     private String timeZone;
-
+    private Double sumHigh;
 
     @Id
     @Column(name = "finance_history_id")
@@ -69,15 +69,13 @@ public class FinanceHistoryEntity {
 
     @Basic
     @Column(name = "sum_high")
-    public Integer getSumHigh() {
+    public Double getSumHigh() {
         return sumHigh;
     }
 
-    public void setSumHigh(Integer sumHigh) {
+    public void setSumHigh(Double sumHigh) {
         this.sumHigh = sumHigh;
     }
-
-    private Integer sumHigh;
 
     @Override
     public boolean equals(Object o) {
