@@ -1,19 +1,7 @@
 package ru.levelup.covid19.finance.dto.yahoo.market;
 
+/* Тикеры Yahoo Finance */
 public enum CompanySymbol {
-    /* Индексы ММВБ
-    MOEXMM - металлы
-    MOEXFN - финансы
-    MOEXOG - нефть и газ
-    MOEXCN - потребительский сектор
-    MOEXEU - электроэнергия
-    MOEXTN - транспорт
-    MOEXTL - телеком
-    MOEXCH - химия
-    MOEXINN - инновации
-    MOEXBC - голубые фишки */
-
-    /* Тикеры Yahoo Finance */
     // Газпром
     OGZPY("OGZPY"),
     GAZ_DE("GAZ.DE"),
