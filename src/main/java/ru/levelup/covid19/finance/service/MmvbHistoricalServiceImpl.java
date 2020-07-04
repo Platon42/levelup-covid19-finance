@@ -22,8 +22,8 @@ public class MmvbHistoricalServiceImpl implements MmvbHistoricalService {
 
         UriComponentsBuilder mmvbHistoryUri =
                 UriComponentsBuilder
-                        .fromUriString("http://iss.moex.com/iss/history/engines/stock/markets/index/boards/SNDX/securities/"
-                        + financialHistoryDto.getCompanySymbol() + ".json")
+                        .fromUriString("http://iss.moex.com/iss/history/engines/stock/markets/index/securities/"
+                                + financialHistoryDto.getCompanySymbol() + ".json")
                         .queryParam("from", financialHistoryDto.getPeriod1())
                         .queryParam("till", financialHistoryDto.getPeriod2());
 
