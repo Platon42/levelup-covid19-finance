@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import ru.levelup.covid19.finance.dto.mmvb.statistic.MmvbTradeDay;
 import ru.levelup.covid19.finance.dto.self.FinancialHistoryDto;
 import ru.levelup.covid19.finance.dto.self.MmvbCapitalizationDiffDto;
 import ru.levelup.covid19.finance.dto.self.TickerDto;
@@ -19,6 +20,7 @@ import ru.levelup.covid19.finance.facade.HistoryFacade;
 import ru.levelup.covid19.finance.utils.SchemaValidator;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Set;
 
 @Controller //об'явление класса контроллера
@@ -120,7 +122,8 @@ public class AppController {
      */
     @SneakyThrows
     @PostMapping("/get-company-sector")
-    public @ResponseBody String getCompanySector(@RequestBody String ticker) {
+    public @ResponseBody
+    String getCompanySector(@RequestBody String ticker) {
         ValidationResult validationResult = schemaValidator.validateTicker(ticker);
         Set<ValidationMessage> messages = validationResult.getValidationMessages();
         if (!messages.isEmpty()) {
@@ -129,5 +132,11 @@ public class AppController {
 
         TickerDto tickerDto = objectMapper.readValue(ticker, TickerDto.class);
         return companyFacade.getCompanySector(tickerDto.getCompanySymbol());
+    }
+
+    @PostMapping("/get-capitalization")
+    public @ResponseBody
+    ArrayList<MmvbTradeDay> getCapitalization(@RequestBody FinancialHistoryDto financialHistoryDto) {
+        return historyFacade.getTradeDays(financialHistoryDto);
     }
 }

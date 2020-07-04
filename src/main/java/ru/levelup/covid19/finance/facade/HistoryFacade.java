@@ -7,8 +7,10 @@ import ru.levelup.covid19.finance.dto.ApiType;
 import ru.levelup.covid19.finance.dto.mmvb.MmvbIndexes;
 import ru.levelup.covid19.finance.dto.mmvb.market.MmvbHistory;
 import ru.levelup.covid19.finance.dto.mmvb.statistic.MmvbIndex;
+import ru.levelup.covid19.finance.dto.mmvb.statistic.MmvbTradeDay;
 import ru.levelup.covid19.finance.dto.self.FinancialHistoryDto;
 import ru.levelup.covid19.finance.dto.self.MmvbCapitalizationDiffDto;
+import ru.levelup.covid19.finance.dto.self.MmvbCapitalizationDto;
 import ru.levelup.covid19.finance.dto.yahoo.stock.historical.HistoricalDataProvider;
 import ru.levelup.covid19.finance.dto.yahoo.stock.historical.Price;
 import ru.levelup.covid19.finance.service.MmvbHistoricalService;
@@ -26,7 +28,7 @@ public class HistoryFacade {
 
     private static int scaleTwo = 2;
     private static int scaleOne = 1;
-    private static final int  ONU_HUNDRED_PERCENT = 100;
+    private static final int ONE_HUNDRED_PERCENT = 100;
 
     @Autowired
     private YahooHistoricalService yahooHistoricalService;
@@ -43,6 +45,8 @@ public class HistoryFacade {
     }
 
     private double getMedianMmvbIndexes(MmvbHistory mmvbHistory) {
+        mmvbHistory.getHistory().getData().forEach(System.out::print);
+
         List<MmvbIndex> mmvbIndexes = mmvbHistoricalService.getMmvbIndex(mmvbHistory);
         mmvbIndexes.sort(new Comparator<MmvbIndex>() {
             @Override
@@ -50,12 +54,14 @@ public class HistoryFacade {
                 return o1.getCapitalization().compareTo(o2.getCapitalization());
             }
         });
+        mmvbIndexes.forEach(System.out::print);
+
         double median = 0.0;
         if (mmvbIndexes.size() % 2 == 0) {
-            median = (mmvbIndexes.get(mmvbIndexes.size()/2).getCapitalization() +
-                    mmvbIndexes.get(mmvbIndexes.size()/2 - 1).getCapitalization()) /2;
+            median = (mmvbIndexes.get(mmvbIndexes.size() / 2).getCapitalization() +
+                    mmvbIndexes.get(mmvbIndexes.size() / 2 - 1).getCapitalization()) / 2;
         } else {
-            median = mmvbIndexes.get(mmvbIndexes.size()/2).getCapitalization();
+            median = mmvbIndexes.get(mmvbIndexes.size() / 2).getCapitalization();
         }
         return median;
     }
@@ -63,11 +69,11 @@ public class HistoryFacade {
     private double calcDiffPercentage(final BigDecimal valFrom, final BigDecimal valTo) {
         BigDecimal currValue = valFrom.subtract(valTo);
         currValue = currValue.divide(valTo, scaleTwo, RoundingMode.HALF_UP);
-        return currValue.doubleValue() * ONU_HUNDRED_PERCENT;
+        return currValue.doubleValue() * ONE_HUNDRED_PERCENT;
     }
 
     public BigDecimal getMarketCapMedian(FinancialHistoryDto dto) {
-        Double calcMedian = 0.0;
+        double calcMedian = 0.0;
 
         if (dto.getProviderName().toLowerCase().equals(ApiType.YAHOO.value)) {
             HistoricalDataProvider data = yahooHistoricalService.getHistoricalData(dto);
@@ -152,4 +158,17 @@ public class HistoryFacade {
         }
         return result;
     }
+
+    public ArrayList<MmvbTradeDay> getTradeDays(FinancialHistoryDto financialHistoryDto) {
+        MmvbHistory mmvbHistory = mmvbHistoricalService.getMmvbHistoricalData(financialHistoryDto);
+
+        ArrayList<MmvbTradeDay> mmvbTradeDayList = new ArrayList<>();
+        List<MmvbIndex> mmvbIndexList = mmvbHistoricalService.getMmvbIndex(mmvbHistory);
+        mmvbIndexList.forEach(mmvbIndex -> {
+            MmvbTradeDay mmvbTradeDay = new MmvbTradeDay(doubleRound(1, mmvbIndex.getCapitalization()), mmvbIndex.getTradeDate());
+            mmvbTradeDayList.add(mmvbTradeDay);
+        });
+        return mmvbTradeDayList;
+    }
+
 }
