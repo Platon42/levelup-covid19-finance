@@ -6,7 +6,9 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import ru.levelup.covid19.finance.dto.mmvb.market.MmvbHistory;
 import ru.levelup.covid19.finance.dto.mmvb.statistic.MmvbIndex;
+import ru.levelup.covid19.finance.dto.mmvb.statistic.MmvbTradeDay;
 import ru.levelup.covid19.finance.dto.self.FinancialHistoryDto;
+import ru.levelup.covid19.finance.dto.self.MmvbCapitalizationDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,5 +42,6 @@ public class MmvbHistoricalServiceImpl implements MmvbHistoricalService {
                 .forEach(e-> mmvbIndexList.add(new MmvbIndex(e)));
         return mmvbIndexList;
     }
+
 
 }

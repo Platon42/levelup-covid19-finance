@@ -7,8 +7,10 @@ import ru.levelup.covid19.finance.dto.ApiType;
 import ru.levelup.covid19.finance.dto.mmvb.MmvbIndexes;
 import ru.levelup.covid19.finance.dto.mmvb.market.MmvbHistory;
 import ru.levelup.covid19.finance.dto.mmvb.statistic.MmvbIndex;
+import ru.levelup.covid19.finance.dto.mmvb.statistic.MmvbTradeDay;
 import ru.levelup.covid19.finance.dto.self.FinancialHistoryDto;
 import ru.levelup.covid19.finance.dto.self.MmvbCapitalizationDiffDto;
+import ru.levelup.covid19.finance.dto.self.MmvbCapitalizationDto;
 import ru.levelup.covid19.finance.dto.yahoo.stock.historical.HistoricalDataProvider;
 import ru.levelup.covid19.finance.dto.yahoo.stock.historical.Price;
 import ru.levelup.covid19.finance.service.MmvbHistoricalService;
@@ -156,4 +158,17 @@ public class HistoryFacade {
         }
         return result;
     }
+
+    public ArrayList<MmvbTradeDay> getTradeDays(FinancialHistoryDto financialHistoryDto) {
+        MmvbHistory mmvbHistory = mmvbHistoricalService.getMmvbHistoricalData(financialHistoryDto);
+
+        ArrayList<MmvbTradeDay> mmvbTradeDayList = new ArrayList<>();
+        List<MmvbIndex> mmvbIndexList = mmvbHistoricalService.getMmvbIndex(mmvbHistory);
+        mmvbIndexList.forEach(mmvbIndex -> {
+            MmvbTradeDay mmvbTradeDay = new MmvbTradeDay(doubleRound(1, mmvbIndex.getCapitalization()), mmvbIndex.getTradeDate());
+            mmvbTradeDayList.add(mmvbTradeDay);
+        });
+        return mmvbTradeDayList;
+    }
+
 }

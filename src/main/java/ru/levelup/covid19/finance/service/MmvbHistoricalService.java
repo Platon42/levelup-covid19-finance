@@ -2,6 +2,7 @@ package ru.levelup.covid19.finance.service;
 
 import ru.levelup.covid19.finance.dto.mmvb.market.MmvbHistory;
 import ru.levelup.covid19.finance.dto.mmvb.statistic.MmvbIndex;
+import ru.levelup.covid19.finance.dto.mmvb.statistic.MmvbTradeDay;
 import ru.levelup.covid19.finance.dto.self.FinancialHistoryDto;
 
 import java.util.List;
