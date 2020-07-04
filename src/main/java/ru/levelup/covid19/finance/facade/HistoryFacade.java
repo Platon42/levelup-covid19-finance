@@ -99,8 +99,6 @@ public class HistoryFacade {
 
     public Double getEqualityIndices(FinancialHistoryDto dto) {
         if (dto.getProviderName().toLowerCase().equals("yahoo")) {
-            HistoricalDataProvider data = yahooHistoricalService.getHistoricalData(dto);
-            priceAndHistoryDataService.saveFinanceDataSpringData(data);
             return 0.0;
         }
         if (dto.getProviderName().toLowerCase().equals("mmvb")) {
