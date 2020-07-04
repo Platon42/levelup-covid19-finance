@@ -7,12 +7,11 @@ import ru.levelup.covid19.finance.dto.yahoo.market.CompanySymbol;
 
 @Data //геттеры сеттеры Lombok
 @AllArgsConstructor
-public class FinancialHistoryDto  implements Cloneable{
+public class FinancialHistoryDto  implements Cloneable {
     private String providerName;
     private String period1;
     private String period2;
     private String companySymbol;
-
 
     @SneakyThrows
     public Object clone(){
