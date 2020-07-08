@@ -6,6 +6,7 @@ import com.networknt.schema.ValidationResult;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -138,5 +139,11 @@ public class AppController {
     public @ResponseBody
     ArrayList<MmvbTradeDay> getCapitalization(@RequestBody FinancialHistoryDto financialHistoryDto) {
         return historyFacade.getTradeDays(financialHistoryDto);
+    }
+
+    @GetMapping("/hello")
+    public @ResponseBody
+    String getHello() {
+        return "Hello world!";
     }
 }
