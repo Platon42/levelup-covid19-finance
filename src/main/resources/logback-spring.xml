@@ -6,10 +6,10 @@
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
-    <appender name="stash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>127.0.0.1:4560</destination>
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
-    </appender>
+    <!--    <appender name="stash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">-->
+    <!--        <destination>127.0.0.1:4560</destination>-->
+    <!--        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>-->
+    <!--    </appender>-->
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
         <file>./logs/covid19-finance.log</file>
         <append>true</append>
@@ -25,4 +25,4 @@
     <root level="INFO">
         <appender-ref ref="FILE"/>
     </root>
-</>
+</configuration>
