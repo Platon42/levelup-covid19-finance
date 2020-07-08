@@ -15,11 +15,11 @@
         </encoder>
     </appender>
 
-    <logger name="ru.levelup.covid19" level="WARN">
+    <logger name="ru.levelup.covid19" level="INFO">
         <appender-ref ref="FILE"/>
     </logger>
 
-    <root level="TRACE">
-        <appender-ref ref="STDOUT"/>
+    <root level="INFO">
+        <appender-ref ref="FILE"/>
     </root>
 </configuration>
