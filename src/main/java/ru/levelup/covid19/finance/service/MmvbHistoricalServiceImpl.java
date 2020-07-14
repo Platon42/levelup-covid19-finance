@@ -1,5 +1,6 @@
 package ru.levelup.covid19.finance.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class MmvbHistoricalServiceImpl implements MmvbHistoricalService {
 
     @Autowired
@@ -31,6 +33,8 @@ public class MmvbHistoricalServiceImpl implements MmvbHistoricalService {
 
         MmvbHistory mmvbHistory =
                 restTemplate.getForObject(mmvbHistoryUri.toUriString(), MmvbHistory.class, 1);
+
+        log.info("hello");
         if (mmvbHistory == null) return null;
         return mmvbHistory;
     }
