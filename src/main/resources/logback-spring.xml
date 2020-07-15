@@ -14,7 +14,7 @@
         <file>./logs/covid19-finance.log</file>
         <append>true</append>
         <encoder>
-            <pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
+            <pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} %-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
         </encoder>
     </appender>
 
@@ -23,6 +23,6 @@
     </logger>
 
     <root level="INFO">
-        <appender-ref ref="FILE"/>
+        <appender-ref ref="STDOUT"/>
     </root>
 </configuration>

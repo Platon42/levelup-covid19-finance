@@ -1,16 +1,13 @@
 package ru.levelup.covid19.finance.facade;
 
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.levelup.covid19.finance.dto.ApiType;
-import ru.levelup.covid19.finance.dto.mmvb.MmvbIndexes;
 import ru.levelup.covid19.finance.dto.mmvb.market.MmvbHistory;
 import ru.levelup.covid19.finance.dto.mmvb.statistic.MmvbIndex;
 import ru.levelup.covid19.finance.dto.mmvb.statistic.MmvbTradeDay;
 import ru.levelup.covid19.finance.dto.self.FinancialHistoryDto;
 import ru.levelup.covid19.finance.dto.self.MmvbCapitalizationDiffDto;
-import ru.levelup.covid19.finance.dto.self.MmvbCapitalizationDto;
 import ru.levelup.covid19.finance.dto.yahoo.stock.historical.HistoricalDataProvider;
 import ru.levelup.covid19.finance.dto.yahoo.stock.historical.Price;
 import ru.levelup.covid19.finance.service.MmvbHistoricalService;
@@ -102,7 +99,6 @@ public class HistoryFacade {
     // Рассчитываем разницу закрытия первого и последнего дня заданного периода по индексам
     // Смотрим разницу между получившимся значением и таким же периодом годом ранее
     // Если состояние рынка ухудшилось, получим отрицательное значение, которое покажет увеличение падения индексов
-
     public Double getEqualityIndices(FinancialHistoryDto dto) {
         if (dto.getProviderName().toLowerCase().equals("yahoo")) {
             return 0.0;
