@@ -62,7 +62,7 @@ public class AppController {
      * @return медиана по капитализации (для индекса ММВБ) или медиана по объему торгов (для тикера Yahoo Finance)
      */
     @SneakyThrows
-    @PostMapping("/get-median") //объявление POST
+    @PostMapping("secure/get-median") //объявление POST
     public @ResponseBody BigDecimal getMedianByMarketCap(@RequestBody String financialHistory) {
         ValidationResult validationResult = schemaValidator.validateFinancialHistoryDto(financialHistory);
         Set<ValidationMessage> messages = validationResult.getValidationMessages();
@@ -135,7 +135,7 @@ public class AppController {
         return companyFacade.getCompanySector(tickerDto.getCompanySymbol());
     }
 
-    @PostMapping("/get-capitalization")
+    @PostMapping("secure/get-capitalization")
     public @ResponseBody
     ArrayList<MmvbTradeDay> getCapitalization(@RequestBody FinancialHistoryDto financialHistoryDto) {
         return historyFacade.getTradeDays(financialHistoryDto);
