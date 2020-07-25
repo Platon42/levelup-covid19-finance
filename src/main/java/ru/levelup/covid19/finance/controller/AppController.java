@@ -135,7 +135,7 @@ public class AppController {
         return companyFacade.getCompanySector(tickerDto.getCompanySymbol());
     }
 
-    @PostMapping("secure/get-capitalization")
+    @PostMapping("/get-capitalization")
     public @ResponseBody
     ArrayList<MmvbTradeDay> getCapitalization(@RequestBody FinancialHistoryDto financialHistoryDto) {
         return historyFacade.getTradeDays(financialHistoryDto);
