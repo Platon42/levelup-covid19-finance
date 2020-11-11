@@ -8,12 +8,12 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 @Configuration // объявление класса конфигурации Spring
 public class RestTemplateConfig {
 
-    @Bean // бин возващающий REST TEMPLATE
-    public RestTemplate getRestTemplate() {
-        RestTemplate restTemplate = new RestTemplate();
-        DefaultUriBuilderFactory defaultUriBuilderFactory = new DefaultUriBuilderFactory();
-        defaultUriBuilderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
-        restTemplate.setUriTemplateHandler(defaultUriBuilderFactory);
-        return restTemplate;
-    }
+@Bean // бин возващающий REST TEMPLATE
+public RestTemplate getRestTemplate() {
+    RestTemplate restTemplate = new RestTemplate();
+    DefaultUriBuilderFactory defaultUriBuilderFactory = new DefaultUriBuilderFactory();
+    defaultUriBuilderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
+    restTemplate.setUriTemplateHandler(defaultUriBuilderFactory);
+    return restTemplate;
+}
 }
